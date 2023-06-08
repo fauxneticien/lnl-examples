@@ -52,9 +52,8 @@ class DeepSpeechLightningModule(pl.LightningModule):
 
     def training_step(self, batch, batch_idx):
         # See loss usage section for details
-        outputs   = self.model(batch['inputs_padded'])
-        log_probs = F.log_softmax(outputs, dim=2, dtype=torch.float32)
-
+        log_probs   = self.model(batch['inputs_padded'])
+        
         loss = self.ctc_loss(log_probs.transpose(0, 1), batch["labels_padded"], batch["input_lengths"], batch["label_lengths"])
 
         # For multi-GPU training, normalize the loss based on the sum of batch_size across all GPUs

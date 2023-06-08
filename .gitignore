@@ -1,0 +1,4 @@
+data/
+LibriSpeech/
+lightning_logs/
+*.tar.gz
