@@ -1,3 +1,6 @@
+__pycache__
+env/
+wandb/
 data/
 LibriSpeech/
 lightning_logs/
