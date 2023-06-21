@@ -1,0 +1,27 @@
+# Order is important! Later ones over-ride earlier ones
+defaults:
+  - _self_
+  - model: default.yaml
+  - datamodule: default.yaml
+  - trainer: default.yaml
+  - experiment: null
+
+# LNL-specific parameters, ??? = required to be set e.g. 
+#
+#    python train_lnl.py lnl.max_updates=10_000
+lnl:
+  wnb_project: lhotse-ptl2-mwe
+  wnb_run: 'test train_lnl.py'
+  max_updates: 10_000
+  # Percentage of max_updates to warmup learning rate
+  lr_warmup_pc: 0.25
+  # Peak learning rate after lr_warmup_pc * max_updates
+  max_lr: 1e-4
+  # Run validation after every n updates
+  val_every_n_updates: 1000
+  # Data loader config
+  # BucketingSampler max_duration in seconds
+  bucket_max_dur: 300
+  # Number of workers for dataloader
+  dloader_workers: 8
+  seed: 42

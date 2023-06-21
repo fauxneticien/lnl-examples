@@ -1,0 +1,19 @@
+# @package _global_
+# Add this '_global_' header so that '/model' path in defaults is relative to 'configs' root
+# https://github.com/facebookresearch/hydra/issues/1365#issuecomment-770511922
+
+# to execute this experiment run:
+# python train_lnl.py experiment=example
+
+defaults:
+  # override to non-default config files if you want
+  - override /model: default.yaml
+  - override /datamodule: default.yaml
+  - override /trainer: default.yaml
+
+# override individual values (will override things in defaults above)
+lnl:
+  max_updates: 5_000
+
+# add further overrides during the call, e.g.
+# python train_lnl.py experiment=example lnl.max_lr=5e-4

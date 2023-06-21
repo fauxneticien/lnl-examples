@@ -1,0 +1,33 @@
+# Arguments for PyTorch Lightning Trainer (2.0.2)
+# https://lightning.ai/docs/pytorch/2.0.2/common/trainer.html#trainer-class-api
+# Over-ride arguments below from CLI and/or add ones not below with '+', e.g.:
+# 
+#    python train_lnl.py lnl.max_updates=10_000 \
+#       trainer.accumulate_grad_batches=1 \
+#       +trainer.log_every_n_steps=100
+#
+_target_: lightning.pytorch.trainer.Trainer
+# Max training based on number of updates
+max_epochs: -1
+max_steps: ${lnl.max_updates}
+accumulate_grad_batches: 1
+# Turn off validation after every epoch (note YAML 'null' = Python None type)
+check_val_every_n_epoch: null
+# Run validation after every N updates, see 'Watch your step!' in notebooks/02_mwe-extras.ipynb
+val_check_interval: ${multiply:${lnl.val_every_n_updates},${trainer.accumulate_grad_batches}}
+# Run through entire validation set to get number of validation steps for lnl_extras.
+num_sanity_val_steps: -1
+# Prevent Lightning from replacing Lhotse's DDP-compatible sampler
+strategy: "ddp"
+use_distributed_sampler: False
+logger:
+  _target_: lightning.pytorch.loggers.WandbLogger
+  project: ${lnl.wnb_project}
+  name: ${lnl.wnb_run}
+precision: "32-true"
+# Use summary() from torchinfo in model setup() to generate a better summary
+enable_model_summary: False
+callbacks:
+  - _target_: lightning.pytorch.callbacks.LearningRateMonitor
+    logging_interval: step
+  - _target_: lnl_extras.LhotseCompatibleProgressBar

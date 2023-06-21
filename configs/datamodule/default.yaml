@@ -1,0 +1,10 @@
+_target_: datamodules.LibriSpeechDataModule
+
+# Pass top-level lnl config as argument to __init__
+lnl_cfg: ${lnl}
+
+dataset_parts:
+  # See valid parts in https://github.com/lhotse-speech/lhotse/blob/master/lhotse/recipes/librispeech.py#L18
+  # "train-clean-5" and "dev-clean-2" make up 'MINI_LIBRISPEECH'
+  train: train-clean-5
+  val: dev-clean-2

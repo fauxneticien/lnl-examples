@@ -1,0 +1,7 @@
+_target_: models.DeepSpeech.DeepSpeechLightningModule
+
+# Pass top-level lnl config as argument to __init__
+lnl_cfg: ${lnl}
+
+val_decoder:
+  _target_: models._utils.GreedyCTCDecoder
