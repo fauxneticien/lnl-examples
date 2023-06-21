@@ -17,6 +17,7 @@ from lightning.pytorch.loggers import CSVLogger
 
 from torch.utils.data import DataLoader
 
+# train_lnl.py imports this from datamodules/_datasets.py
 class MinimalASRDataset(torch.utils.data.Dataset):
     def __init__(self, model_n_feature, tokenizer):
         self.extractor = OnTheFlyFeatures(Fbank(FbankConfig(num_mel_bins=model_n_feature)))
@@ -28,6 +29,7 @@ class MinimalASRDataset(torch.utils.data.Dataset):
         tokens, token_lens = self.tokenizer(cuts)
         return {"inputs_padded": feats, "input_lengths": feat_lens, "labels_padded": tokens, "label_lengths": token_lens}
 
+# train_lnl.py imports this from datamodules/LibriSpeech.py
 class LibrisDataModule(pl.LightningDataModule):
     def prepare_data(self,) -> None:
         download_librispeech(dataset_parts="mini_librispeech")
@@ -65,6 +67,7 @@ class LibrisDataModule(pl.LightningDataModule):
             num_workers=8
         )
 
+# train_lnl.py imports this from models/_utils.py
 class GreedyCTCDecoder(torch.nn.Module):
     def __init__(self):
         super().__init__()
@@ -85,6 +88,7 @@ class GreedyCTCDecoder(torch.nn.Module):
 
         return predictions
 
+# train_lnl.py imports this from models/DeepSpeech/lightningmodule.py
 class DeepSpeechLightningModule(pl.LightningModule):
 
     def __init__(self, val_decoder, n_feature=80):
@@ -186,6 +190,8 @@ class DeepSpeechLightningModule(pl.LightningModule):
 
 seed_everything(42)
 
+# train_lnl.py imports an over-ridable configuration merged
+# from various .yaml files in configs/ using Hydra (https://hydra.cc/docs/intro/)
 LNL_CONFIG = {
     "lr": 1e-4,
     "max_updates": 10_000,
