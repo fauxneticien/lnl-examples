@@ -2,10 +2,11 @@ import hydra
 import jiwer
 import torch
 import torchinfo
-import torchaudio
 
 import lightning.pytorch as pl
 import pandas as pd
+
+from .model import DeepSpeech
 
 class DeepSpeechLightningModule(pl.LightningModule):
 
@@ -21,7 +22,7 @@ class DeepSpeechLightningModule(pl.LightningModule):
         self.val_ref_pred_pairs = []
 
     def setup(self, stage = None):
-        self.model    = torchaudio.models.DeepSpeech(
+        self.model    = DeepSpeech(
             # Set in __init__() above
             n_feature=self.n_feature,
             # Set in LibrisDataModule setup()

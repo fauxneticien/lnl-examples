@@ -10,8 +10,8 @@ defaults:
 #
 #    python train_lnl.py lnl.max_updates=10_000
 lnl:
-  wnb_project: lhotse-ptl2-mwe
-  wnb_run: 'test train_lnl.py'
+  wnb_project: ???
+  wnb_run: ???
   max_updates: 10_000
   # Percentage of max_updates to warmup learning rate
   lr_warmup_pc: 0.25
