@@ -14,25 +14,70 @@ The notebooks contain a lot of prose aimed at newcomers and builds up a componen
 We'll be using the latest stable versions of various packages as of early June 2023:
 
 ```
+# For minimal working example in train_mwe.py
 torch==2.0.1
 torchaudio==2.02
 lightning==2.0.2
 lhotse==1.14.0
+
+# For extras in train_mwe-extras.py and trainlnl.py
+jiwer==3.0.2
+pandas==2.0.2
+hydra-core==1.3.2
+wandb==0.15.4
+torchinfo==1.8.0
 ```
 
 #### Conda
 
-You can create and activate a conda environment from the `env.yaml` file using:
+You can create and activate a conda environment at in the `env` directory from the `env.yaml` file using:
 
 ```bash
-conda env create -n lnl-examples --file env.yaml
-conda activate lnl-examples
+conda env create --prefix ./env --file env.yaml
+conda activate ./env
 ```
 
-### Run example
+#### Docker
+
+If you have docker and docker-compose you can also launch a container using:
+
+```bash
+docker compose run lnl-examples
+```
+
+### Run examples
+
+#### Minimal working examples
 
 Once you've set up this environment (and optionally read the corresponding notebook), you can run a given example as:
 
-```
+```bash
 python train_mwe.py
+
+# or extras
+
+python train_mwe-extras.py
+```
+
+#### LnL example
+
+```bash
+# To run without Weights & Biases configured
+wandb disabled
+python train_lnl.py \
+    lnl.wnb_project=null \
+    lnl.wnb_run=null
+
+# To run with Weights & Biases configured
+wandb enabled
+python train_lnl.py \
+    lnl.wnb_project=my_project \
+    lnl.wnb_run='test run train_lnl.py'
+
+# Use Hydra CLI overrides to change/add configs (see defaults in configs folder):
+python train_lnl.py \
+    lnl.wnb_project=my_project \
+    lnl.wnb_run='test run train_lnl.py' \
+    trainer.precision='16-mixed' \
+    +trainer.gradient_clip_val=0.5
 ```

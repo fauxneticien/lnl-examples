@@ -28,7 +28,7 @@ class LibriSpeechDataModule(pl.LightningDataModule):
 
     def setup(self, stage = None):
         libri = prepare_librispeech(
-            corpus_dir=self.corpus_dir,
+            corpus_dir=f"{self.corpus_dir}/LibriSpeech",
             output_dir=f"{self.corpus_dir}/manifests/"
         )
         self.cuts_train = CutSet.from_manifests(**libri[self.dataset_parts.train])
