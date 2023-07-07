@@ -6,3 +6,5 @@ LibriSpeech/
 lightning_logs/
 *.tar.gz
 outputs/
+tmp/*
+!tmp/.gitkeep
