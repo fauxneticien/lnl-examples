@@ -61,7 +61,7 @@ def lhotse_manifest_from_tsvs(data_dir, clips_subdir='clips'):
 
     func_wrapper = partial(lhotse_manifest_from_tsv, all_clips=all_clips)
 
-    manifests_list = process_map(func_wrapper, part_tsvs)
+    manifests_list = process_map(func_wrapper, part_tsvs, desc="Creating manifests... ")
     manifests_dict = dict(zip(part_names, manifests_list))
 
     return manifests_dict
